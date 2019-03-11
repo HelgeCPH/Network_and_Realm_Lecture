@@ -13246,8 +13246,7 @@ Full-Request = Request-Line
                       CRLF
                        [Entity-Body]
 Request-Line = Method SP Request-URI SP HTTP-Version CRLF
-Method = "GET" | "HEAD" | POST |
-         extension-method</code></pre>
+Method = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "OPTIONS" | "TRACE" | "CONNECT" | "PATCH" | ...</code></pre>
 
 </div>
 </div>
@@ -13293,7 +13292,7 @@ Content-Type: text/html; charset=ISO-8859-1  // entity header</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span>%%bash
@@ -13315,7 +13314,7 @@ curl -v http://httpbin.org/uuid
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>{
-  &#34;uuid&#34;: &#34;83e6bd5b-cdf1-4993-b122-01550361fe7f&#34;
+  &#34;uuid&#34;: &#34;874dcf20-6f6a-4a82-a36c-08d654d0412a&#34;
 }
 </pre>
 </div>
@@ -13341,13 +13340,13 @@ curl -v http://httpbin.org/uuid
 &lt; Access-Control-Allow-Credentials: true
 &lt; Access-Control-Allow-Origin: *
 &lt; Content-Type: application/json
-&lt; Date: Thu, 07 Mar 2019 15:32:13 GMT
+&lt; Date: Mon, 11 Mar 2019 21:31:02 GMT
 &lt; Server: nginx
 &lt; Content-Length: 53
 &lt; Connection: keep-alive
 &lt; 
 { [53 bytes data]
-100    53  100    53    0     0    231      0 --:--:-- --:--:-- --:--:--   231
+100    53  100    53    0     0    144      0 --:--:-- --:--:-- --:--:--   144
 * Connection #0 to host httpbin.org left intact
 </pre>
 </div>
@@ -13507,7 +13506,11 @@ scheme  user information     host     port                  query         fragme
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Your-Turn!">Your Turn!<a class="anchor-link" href="#Your-Turn!">&#182;</a></h3><p>What is the difference between a URI and a URL?</p>
+<h3 id="Your-Turn!">Your Turn!<a class="anchor-link" href="#Your-Turn!">&#182;</a></h3><ul>
+<li>What is the meaning of <em>URI</em>?</li>
+<li>What is the meaning of <em>URL</em>?</li>
+<li>What is the difference between a <em>URI</em> and a <em>URL</em>?</li>
+</ul>
 
 </div>
 </div>
@@ -13697,9 +13700,6 @@ scheme  user information     host     port                  query         fragme
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The issue:</p>
-<blockquote><p>To avoid creating an unresponsive UI, don't perform network operations on the UI thread. By default, Android 3.0 (API level 11) and higher requires you to perform network operations on a thread other than the main UI thread; if you don't, a <code>NetworkOnMainThreadException</code> is thrown.</p>
-<p><a href="https://developer.android.com/training/basics/network-ops/connecting.html#intro">https://developer.android.com/training/basics/network-ops/connecting.html#intro</a></p>
-</blockquote>
 
 </div>
 </div>
@@ -13725,19 +13725,7 @@ scheme  user information     host     port                  query         fragme
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-Possible-Solution">A Possible Solution<a class="anchor-link" href="#A-Possible-Solution">&#182;</a></h3><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nn">dk.itu.helge.httpgetasync</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">android.support.v7.app.AppCompatActivity</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">android.os.AsyncTask</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">android.widget.TextView</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.ByteArrayOutputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.net.HttpURLConnection</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
-</pre></div>
-
+<h3 id="A-Possible-Solution">A Possible Solution<a class="anchor-link" href="#A-Possible-Solution">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -13754,7 +13742,14 @@ scheme  user information     host     port                  query         fragme
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="HTTP-Request-via-Volley">HTTP Request via Volley<a class="anchor-link" href="#HTTP-Request-via-Volley">&#182;</a></h2><p>We build the example using regular Java libraries. There HTTP interactions are a bit hairy.</p>
 <p>For your projects it is likely worth to check the <a href="https://github.com/google/volley">Volley</a> library, which makes HTTP calls and responses more easy and more efficient.</p>
-<p><img src="https://i1.wp.com/tutorial.eyehunts.com/wp-content/uploads/2018/06/Volley-android-example-and-tutotiral-HTTP-GET.png" alt="Drawing" style="width: 600px;"/></p>
+<p><img src="https://i1.wp.com/tutorial.eyehunts.com/wp-content/uploads/2018/06/Volley-android-example-and-tutotiral-HTTP-GET.png" alt="Drawing" style="width: 700px;"/></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>To use it you have to add the following line to the dependencies of your <code>build.gradle (Module: app)</code> file.</p>
 <div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
     <span class="o">...</span>
@@ -14097,7 +14092,7 @@ Realm founders Alexander Stigsen and Bjarne Christiansen, who worked earlier for
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://images.contentful.com/emmiduwd41v7/4BZWBXxaP6oA2OKYymCwiW/74d169bec3e0774dc00b0f723a6c88a0/Screen_Shot_2016-09-26_at_8.56.48_PM.png" alt=""></p>
+<p><img src="https://images.contentful.com/emmiduwd41v7/4BZWBXxaP6oA2OKYymCwiW/74d169bec3e0774dc00b0f723a6c88a0/Screen_Shot_2016-09-26_at_8.56.48_PM.png" alt="Drawing" style="width: 60%;"/></p>
 
 </div>
 </div>
@@ -14254,6 +14249,14 @@ Realm founders Alexander Stigsen and Bjarne Christiansen, who worked earlier for
 <span class="n">translations</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">remoteTranslations</span><span class="o">);</span>
 <span class="n">realm</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 </pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="You-should-not-write-to-Realm-from-the-Main-Thread">You should not write to Realm from the Main Thread<a class="anchor-link" href="#You-should-not-write-to-Realm-from-the-Main-Thread">&#182;</a></h4><p><img src="images/translation_activity.png" alt=""></p>
 
 </div>
 </div>
