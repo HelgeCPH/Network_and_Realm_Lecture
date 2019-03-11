@@ -1,0 +1,10 @@
+*.jar
+*.class
+*.o
+Helloworld
+.ipynb_checkpoints
+bin/
+obj/
+.idea
+.vscode/
+

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ImplicitIntendDemo</string>
+    <string name="button_text">Open Website</string>
+</resources>
