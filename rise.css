@@ -3,7 +3,7 @@
 }
 
 .reveal img {
-    max-width: 60%;
+    max-width: 95%;
 }
 
 .CodeMirror {
@@ -29,6 +29,7 @@
     border: 1px solid #CCC;
     padding: 1px 5px;
     border-radius: 1px;
+    max-width: 98%;
 }
 .rise-enabled .fa-times-circle:before,
 .rise-enabled .fa-question:before,

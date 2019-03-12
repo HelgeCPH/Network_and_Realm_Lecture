@@ -1,4 +1,6 @@
 
+# Network, Realm DB, Implicit Intents
+
 # Case for Today
 
 A reader application that allows you to translate English text from Moby Dick to Spanish.
@@ -126,15 +128,15 @@ curl -v http://httpbin.org/uuid
 ```
 
     {
-      "uuid": "874dcf20-6f6a-4a82-a36c-08d654d0412a"
+      "uuid": "b649f239-f58f-4d6b-9991-af614f3c76ab"
     }
 
 
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 52.71.234.219...
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.85.154.144...
     * TCP_NODELAY set
-    * Connected to httpbin.org (52.71.234.219) port 80 (#0)
+    * Connected to httpbin.org (3.85.154.144) port 80 (#0)
     > GET /uuid HTTP/1.1
     > Host: httpbin.org
     > User-Agent: curl/7.63.0
@@ -144,13 +146,13 @@ curl -v http://httpbin.org/uuid
     < Access-Control-Allow-Credentials: true
     < Access-Control-Allow-Origin: *
     < Content-Type: application/json
-    < Date: Mon, 11 Mar 2019 21:31:02 GMT
+    < Date: Tue, 12 Mar 2019 07:16:49 GMT
     < Server: nginx
     < Content-Length: 53
     < Connection: keep-alive
     < 
     { [53 bytes data]
-    100    53  100    53    0     0    144      0 --:--:-- --:--:-- --:--:--   144
+    100    53  100    53    0     0    156      0 --:--:-- --:--:-- --:--:--   156
     * Connection #0 to host httpbin.org left intact
 
 
@@ -472,6 +474,9 @@ Build the Android project `HTTPGetFromMainThread`.
 
 The issue:
 
+  > To avoid creating an unresponsive UI, don't perform network operations on the UI thread. By default, Android 3.0 (API level 11) and higher requires you to perform network operations on a thread other than the main UI thread; if you don't, a `NetworkOnMainThreadException` is thrown.
+  >
+  > https://developer.android.com/training/basics/network-ops/connecting.html#intro
 
 
   * How to make this work?
@@ -482,9 +487,59 @@ The issue:
   * You have to extend the class `AsyncTask`
   * and override the two methods `doInBackground` and `onPostExecute`.
 
-### A Possible Solution
+#### A Possible Solution
 
+```java
+package dk.itu.helge.httpgetasync;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.os.AsyncTask;
+import android.widget.TextView;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView textView;
+    private static String urlString = "https://httpbin.org/uuid";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        textView = findViewById(R.id.text_view);
+        new HTTPGetTask().execute();
+    }
+
+    public byte[] getUrlBytes(String urlString) throws IOException {
+        // The exact same as before...
+        ...
+    }
+
+    private class HTTPGetTask extends AsyncTask<Void,Void,byte[]> {
+
+        @Override
+        protected byte[] doInBackground(Void... params) {
+            try {
+                return getUrlBytes(urlString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] response) {
+            String responseString = new String(response);
+            textView.setText(responseString);
+        }
+    }
+}
+```
 
 Find a more elaborate example at [https://github.com/googlesamples/android-NetworkConnect](https://github.com/googlesamples/android-NetworkConnect)
 
@@ -615,7 +670,7 @@ curl -u "apikey:-BV_YJRiNag-61Gb99oGLZFqV8tiXzckdO0zB-hvbOMz" \
 
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
-    100   188  100   131  100    57     87     37  0:00:01  0:00:01 --:--:--   125
+    100   188  100   131  100    57     60     26  0:00:02  0:00:02 --:--:--    86
 
 
 **OBS**: I will revoke the API Key on Thursday. Then you have to replace it with your own.
